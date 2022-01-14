@@ -4,6 +4,7 @@
   "description": "An API for processing images for the web.",
   "main": "index.js",
   "scripts": {
+    "fmt": "npx prettier src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/mu-eid/image-processing-api/issues"
   },
-  "homepage": "https://github.com/mu-eid/image-processing-api#readme"
+  "homepage": "https://github.com/mu-eid/image-processing-api#readme",
+  "devDependencies": {
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "2.5.1"
+  }
 }
