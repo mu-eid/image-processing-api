@@ -4,13 +4,13 @@ This repository contains the source code for the first project of Udacity's _Adv
 ## How to use this code?
 - Clone this repo.
     ```
-    $ git clone https://github.com/mu-eid/image-processing-api.git
+    git clone https://github.com/mu-eid/image-processing-api.git
 
-    $ cd image-processing-api
+    cd image-processing-api
     ```
 - Install dependencies.
     ```
-    $ npm install
+    npm install
     ```
 - Start the server.
     ```
