@@ -8,6 +8,7 @@
         "fmt": "npx prettier src/",
         "lint": "npx eslint --ignore-path .eslintignore --ext .js,.ts src/",
         "build": "npx tsc",
+        "clear": "rm -rf build/",
         "test": "npm run build && npx jasmine"
     },
     "repository": {
