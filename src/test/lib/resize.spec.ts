@@ -1,26 +1,29 @@
 import { readdir } from 'fs/promises';
 import resize from '../../lib/resize';
+import { outputFilePath } from '../../lib/resize/utils';
+import path from 'path';
 
-describe('resize-lib', () => {
-    describe('resize function', () => {
+describe('Resize Library', () => {
+    describe('Resize Function', () => {
         const name = 'fjord';
         const width = 300;
         const height = 200;
-        const outputName = `${name}-w${width}-h${height}.jpg`;
+        const outputName = path.basename(outputFilePath(name, width, height));
+        //`${name}-w${width}-h${height}.jpg`;
 
         beforeAll(async () => {
             await resize(name, width, height);
         });
 
-        it('should produce an output file if an input file exists.', async () => {
+        it('should produce an output file if input file exists.', async () => {
             const images = await readdir('./images/out');
             expect(images.includes(outputName)).toBe(true);
         });
 
-        it('should throw an error if input image does not exist.', async () => {
-            await expectAsync(
-                resize('no-file-with-that-name', 300, 200)
-            ).toBeRejected();
+        it('should throw an error if input file does not exist.', () => {
+            expect(() => {
+                return resize('no-file-with-that-name', 300, 200);
+            }).toThrow;
         });
     });
 });
