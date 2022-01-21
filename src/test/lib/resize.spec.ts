@@ -1,7 +1,8 @@
 import { readdir } from 'fs/promises';
-import resize from '../../lib/resize';
-import { outputFilePath } from '../../lib/resize/utils';
 import path from 'path';
+
+import resize from '../../lib/resize';
+import { outputFilePath, OUTPUT_DIR } from '../../lib/resize/utils';
 
 describe('Resize Library', () => {
     describe('Resize Function', () => {
@@ -16,7 +17,7 @@ describe('Resize Library', () => {
         });
 
         it('should produce an output file if input file exists.', async () => {
-            const images = await readdir('./images/out');
+            const images = await readdir(OUTPUT_DIR);
             expect(images.includes(outputName)).toBe(true);
         });
 

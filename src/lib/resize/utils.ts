@@ -11,4 +11,4 @@ function inputFilePath(name: string): string {
     return path.resolve(INPUT_DIR, `${name}.jpg`);
 }
 
-export { outputFilePath, inputFilePath };
+export { outputFilePath, inputFilePath, INPUT_DIR, OUTPUT_DIR };
