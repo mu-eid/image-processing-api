@@ -4,12 +4,13 @@
     "description": "An API for processing images for the web.",
     "main": "index.js",
     "scripts": {
-        "start": "npx nodemon src/index.ts",
-        "fmt": "npx prettier src/",
+        "serve": "npx nodemon src/index.ts",
+        "fmt": "npx prettier --write src/",
         "lint": "npx eslint --ignore-path .eslintignore --ext .js,.ts src/",
         "build": "npx tsc",
         "clear": "rm -rf build/ && rm images/out/*",
-        "test": "npm run build && jasmine"
+        "test": "npm run build && jasmine",
+        "start": "npm run build && node build/index"
     },
     "repository": {
         "type": "git",
