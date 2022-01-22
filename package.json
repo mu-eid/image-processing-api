@@ -5,12 +5,12 @@
     "main": "index.js",
     "scripts": {
         "serve": "npx nodemon src/index.ts",
+        "start": "npm run build && node build/index",
+        "build": "npx tsc",
+        "test": "npm run clear && npm run build && jasmine",
         "fmt": "npx prettier --write src/",
         "lint": "npx eslint --ignore-path .eslintignore --ext .js,.ts src/",
-        "build": "npx tsc",
-        "clear": "rm -rf build/ && rm images/out/*",
-        "test": "npm run build && jasmine",
-        "start": "npm run build && node build/index"
+        "clear": "npx rimraf build/ images/out/*"
     },
     "repository": {
         "type": "git",
@@ -36,6 +36,7 @@
         "jasmine-spec-reporter": "^7.0.0",
         "nodemon": "^2.0.15",
         "prettier": "2.5.1",
+        "rimraf": "^3.0.2",
         "supertest": "^6.2.1",
         "ts-node": "^10.4.0",
         "typescript": "^4.5.4"
