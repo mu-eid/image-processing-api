@@ -8,7 +8,7 @@ import { outputFilePath } from '../../lib/resize/utils';
 const resize_api = express.Router();
 const imageCache = new ImageCache();
 
-resize_api.get('/', (req, resp) => {
+resize_api.get('/', async (req, resp) => {
     // Expected request URL:
     // http://127.0.0.1:7001/resize?image=fjord&width=300&height=200
 
@@ -38,7 +38,7 @@ resize_api.get('/', (req, resp) => {
     const outputPath = outputFilePath(image, width, height);
     const imageName = path.basename(outputPath);
 
-    if (imageCache.has(imageName)) {
+    if (await imageCache.has(imageName)) {
         resp.sendFile(outputPath);
         return;
     }

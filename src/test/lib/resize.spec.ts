@@ -9,8 +9,9 @@ describe('Resize Library', () => {
         const name = 'fjord';
         const width = 300;
         const height = 200;
-        const outputName = path.basename(outputFilePath(name, width, height));
+        
         //`${name}-w${width}-h${height}.jpg`;
+        const outputName = path.basename(outputFilePath(name, width, height));
 
         beforeAll(async () => {
             await resize(name, width, height);
@@ -22,8 +23,8 @@ describe('Resize Library', () => {
         });
 
         it('should throw an error if input file does not exist.', () => {
-            expect(() => {
-                return resize('no-file-with-that-name', 300, 200);
+            expect(async () => {
+                return await resize('no-file-with-that-name', 300, 200);
             }).toThrow;
         });
     });
