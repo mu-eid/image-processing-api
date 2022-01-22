@@ -9,8 +9,8 @@ export const app = express();
 
 app.use('/resize', resize_api);
 
-app.get('/', (req, resp) => {
-    resp.send('Server is working!!!');
+app.get('/about', (req, resp) => {
+    resp.send('Simple image resizing API, please read README.md file for more info.');
 });
 
 app.get('/ping', (req, resp) => {
@@ -18,5 +18,5 @@ app.get('/ping', (req, resp) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running at address http://${HOST}:${PORT}`);
+    console.log(`Server is running at address http://${HOST}:${PORT}/about`);
 });

@@ -62,7 +62,7 @@ use these image file names to try and test the API.
 -   Start the dev server via:
 
     ```
-    $ npm serve
+    $ npm run serve
     ```
 
 -   Format the source code via:
