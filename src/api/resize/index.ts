@@ -1,8 +1,12 @@
 import express from 'express';
+import path from 'path';
+
+import ImageCache from '../../lib/cache';
 import resize from '../../lib/resize';
 import { outputFilePath } from '../../lib/resize/utils';
 
 const resize_api = express.Router();
+const imageCache = new ImageCache();
 
 resize_api.get('/', (req, resp) => {
     // Expected request URL:
@@ -13,7 +17,7 @@ resize_api.get('/', (req, resp) => {
     const width = parseInt(req.query.width as string, 10);
     const height = parseInt(req.query.height as string, 10);
 
-    // [2] Handle the absence of query values
+    // [2] Handle the absence of query string values
     let errorMessage = '';
 
     if (!image) {
@@ -30,8 +34,19 @@ resize_api.get('/', (req, resp) => {
         return;
     }
 
+    // [3] serve the request
+    const outputPath = outputFilePath(image, width, height);
+    const imageName = path.basename(outputPath);
+
+    if (imageCache.has(imageName)) {
+        resp.sendFile(outputPath);
+        return;
+    }
     resize(image, width, height)
-        .then(() => resp.sendFile(outputFilePath(image, width, height)))
+        .then(() => {
+            imageCache.store(imageName);
+            resp.sendFile(outputPath);
+        })
         .catch((err) => {
             const error = err as Error;
             resp.status(404);
