@@ -4,17 +4,9 @@ import { OUTPUT_DIR } from '../resize/utils';
 class ImageCache {
     private cache = new Map<string, boolean>();
     constructor() {
-        readdir(OUTPUT_DIR).then((images) =>
-            images.map((image) => this.cache.set(image, true))
+        readdir(OUTPUT_DIR).then((storedImages) =>
+            storedImages.map((image) => this.store(image))
         );
-    }
-
-    store(image: string): void {
-        this.cache.set(image, true);
-    }
-
-    has(image: string): boolean {
-        return this.cache.get(image) ? true : false;
     }
 
     get size(): number {
@@ -23,6 +15,32 @@ class ImageCache {
 
     isEmpty(): boolean {
         return this.size === 0;
+    }
+
+    store(image: string): void {
+        this.cache.set(image, true);
+    }
+
+    has(image: string): Promise<boolean> {
+        return this.refresh().then(() =>
+            this.cache.get(image) === undefined ? false : true
+        );
+    }
+
+    refresh(): Promise<void> {
+        return readdir(OUTPUT_DIR).then((storedImages): void => {
+            if (storedImages.length === 0) {
+                this.cache.clear();
+                return;
+            }
+
+            if (storedImages.length !== this.size) {
+                this.cache.clear();
+                for (const image of storedImages) {
+                    this.store(image);
+                }
+            }
+        });
     }
 }
 

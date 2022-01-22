@@ -8,13 +8,13 @@ describe('ImageCashe Class', () => {
     const cache = new ImageCache();
 
     describe('New instance', () => {
-        describe('When Empty', () => {
+        describe('When storage directory is [Empty]', () => {
             it('should be empty while no resizing operation has happend yet', () => {
                 expect(cache.isEmpty()).toEqual(true);
             });
         });
 
-        describe('When Non Empty', () => {
+        describe('When storage directory is [Non-empty]', () => {
             let resizedImageName: string;
 
             beforeAll(async () => {
@@ -29,9 +29,8 @@ describe('ImageCashe Class', () => {
                 await resize(name, width, height);
             });
 
-            it('should contain a copy from a newly resized image file', () => {
-                cache.store(resizedImageName);
-                expect(cache.has(resizedImageName)).toBe(true);
+            it('should contain a copy from a newly resized image file', async () => {
+                return expect(await cache.has(resizedImageName)).toBe(true);
             });
         });
     });
