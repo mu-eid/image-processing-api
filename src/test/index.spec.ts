@@ -13,7 +13,7 @@ describe('Server status check', () => {
             expect(resp.statusCode).toEqual(200);
         });
 
-        it('shuold send a response with type JSON.', () => {
+        it('should send a response with type JSON.', () => {
             expect(resp.get('Content-Type')).toMatch(/json/);
         });
 
