@@ -67,4 +67,27 @@ describe('Resize API', () => {
             });
         });
     });
+
+    describe('When [Height] value is missing or not a number', () => {
+        let resp: httpTest.Response;
+        const TEST_URL = '/resize?image=fjord&width=300';
+
+        beforeAll(async () => {
+            resp = await httpTest(app).get(TEST_URL);
+        });
+
+        it('should respond with code 400', () => {
+            expect(resp.statusCode).toEqual(400);
+        });
+
+        it('should return a specific error message of type [JSON]', () => {
+            expect(resp.get('Content-Type')).toMatch(/json/);
+
+            expect(resp.body).toEqual({
+                error: {
+                    message: 'Need to provide a [height] value for resizing',
+                },
+            });
+        });
+    });
 });
