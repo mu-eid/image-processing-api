@@ -17,7 +17,6 @@ function resize(
         )
         .catch((err) => {
             const error = err as Error;
-            console.log(`[file: ${name}] - Error: ${error.name}`);
             throw error;
         });
 }
