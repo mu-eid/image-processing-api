@@ -10,7 +10,7 @@
         "test": "npm run clear && npm run build && jasmine",
         "fmt": "npx prettier --write src/",
         "lint": "npx eslint --ignore-path .eslintignore --ext .js,.ts src/",
-        "clear": "npx rimraf build/ images/out/*"
+        "clear": "npx rimraf build/ images/out/"
     },
     "repository": {
         "type": "git",

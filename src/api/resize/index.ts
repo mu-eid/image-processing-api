@@ -1,14 +1,14 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import path from 'path';
 
 import ImageCache from '../../lib/cache';
 import resize from '../../lib/resize';
-import { outputFilePath } from '../../lib/resize/utils';
+import { outPath } from '../../lib/resize/utils';
 
 const resize_api = express.Router();
 const imageCache = new ImageCache();
 
-resize_api.get('/', async (req, resp) => {
+resize_api.get('/', async (req: Request, resp: Response): Promise<void> => {
     // Expected request URL:
     // http://127.0.0.1:7001/resize?image=fjord&width=300&height=200
 
@@ -35,30 +35,32 @@ resize_api.get('/', async (req, resp) => {
     }
 
     // [3] serve the request
-    const outputPath = outputFilePath(image, width, height);
+    const outputPath = outPath(image, width, height);
     const imageName = path.basename(outputPath);
 
     if (await imageCache.has(imageName)) {
+        // if cached send file
         resp.sendFile(outputPath);
-        return;
-    }
-    resize(image, width, height)
-        .then(() => {
-            imageCache.store(imageName);
-            resp.sendFile(outputPath);
-        })
-        .catch((err) => {
-            const error = err as Error;
-            resp.status(404);
-            resp.json({
-                error: {
-                    message: 'Resizing: something went wrong.',
-                    reason: error.message.includes('ENOENT')
-                        ? 'No such image file'
-                        : error.message,
-                },
+    } else {
+        // else resize, cache then send it
+        resize(image, width, height)
+            .then(() => {
+                imageCache.store(imageName);
+                resp.sendFile(outputPath);
+            })
+            .catch((err) => {
+                const error = err as Error;
+                resp.status(404);
+                resp.json({
+                    error: {
+                        message: 'Resizing: something went wrong.',
+                        reason: error.message.includes('ENOENT')
+                            ? 'No such image file'
+                            : error.message,
+                    },
+                });
             });
-        });
+    }
 });
 
 export default resize_api;

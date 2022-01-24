@@ -1,6 +1,6 @@
 import ImageCache from '../../lib/cache';
 import resize from '../../lib/resize';
-import { outputFilePath } from '../../lib/resize/utils';
+import { outPath } from '../../lib/resize/utils';
 
 import path from 'path';
 
@@ -22,9 +22,7 @@ describe('ImageCashe Class', () => {
                 const width = 480;
                 const height = 320;
 
-                resizedImageName = path.basename(
-                    outputFilePath(name, width, height)
-                );
+                resizedImageName = path.basename(outPath(name, width, height));
 
                 await resize(name, width, height);
             });
